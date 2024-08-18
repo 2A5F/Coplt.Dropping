@@ -5,6 +5,10 @@
 
 Auto gen dispose pattern
 
+- Allow multiple drops
+- Specify the drop order `[Drop(Order = X)]`
+- Mark Drop directly on fields and properties
+
 ## Example
 
 - Basic usage
