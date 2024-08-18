@@ -59,7 +59,10 @@ public class DroppingGenerator : IIncrementalGenerator
                                 else if (kv is { Key: "Unmanaged", Value.Value: bool Unmanaged })
                                     drop_attr.Unmanaged = Unmanaged;
                             }
+                            goto find;
                         }
+                        return default(MemberInfo?);
+                        find:
                         var member_type = m switch
                         {
                             IPropertySymbol => MemberType.Prop,
@@ -78,7 +81,9 @@ public class DroppingGenerator : IIncrementalGenerator
 
                         return new MemberInfo(member_type, m.Name, m.IsStatic, drop_attr, disposing);
                     })
-                    .OrderBy(a => a.attr.Order)
+                    .Where(static a => a.HasValue)
+                    .Select(static a => a!.Value)
+                    .OrderBy(static a => a.attr.Order)
                     .ToImmutableArray();
 
                 Accessibility? BaseDispose = null;

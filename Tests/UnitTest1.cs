@@ -158,6 +158,21 @@ public sealed partial class Foo12
 }
 
 
+[Dropping(Unmanaged = true)]
+public sealed partial class Foo13
+{
+    [Drop]
+    public Foo1 a;
+    public int b;
+    
+    [Drop]
+    private void Drop(bool disposing)
+    {
+        Console.WriteLine(disposing);
+    }
+}
+
+
 public class Tests
 {
     [SetUp]
