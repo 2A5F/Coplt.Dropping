@@ -9,7 +9,7 @@ Auto gen dispose pattern
 - Auto handle destructor/finalizer
 - Allow multiple drops
 - Specify the drop order `[Drop(Order = X)]`
-- Mark Drop directly on fields and properties
+- Mark Drop directly on fields and properties (requires target type have `Dispose` method)
 - Dose not supported `AsyncDispose`, too complicated, it is recommended to implement it manually
 
 ## Example
