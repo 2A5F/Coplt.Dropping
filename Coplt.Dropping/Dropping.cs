@@ -1,5 +1,8 @@
 ﻿namespace Coplt.Dropping;
 
+/// <summary>
+/// Mark this type as needing to be disposable
+/// </summary>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, Inherited = false)]
 public sealed class DroppingAttribute : Attribute
 {
@@ -13,6 +16,9 @@ public sealed class DroppingAttribute : Attribute
     public bool Unmanaged { get; set; }
 }
 
+/// <summary>
+/// Mark the dispose target, can be a method, field, or property
+/// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Property, Inherited = false)]
 public sealed class DropAttribute : Attribute
 {
