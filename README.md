@@ -12,7 +12,7 @@ Auto gen dispose pattern
 - The first argument of `Drop` target method can be `bool disposing`
 - Mark Drop directly on fields and properties (requires target type have `Dispose` method)
 - Dose not supported `AsyncDispose`, too complicated, it is recommended to implement it manually
-- `Drop` can mark on static methods, will pass `this` on first argument, if has `bool disposing` will be the second argument
+- `Drop` can mark on static methods, will pass `this` on first argument, if have `bool disposing` will be the second argument
 
 ## Example
 
@@ -285,4 +285,6 @@ Auto gen dispose pattern
 
     </details>
     <br/>
+
+More see `Tests`
 
