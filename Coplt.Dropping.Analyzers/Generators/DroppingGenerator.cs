@@ -79,7 +79,14 @@ public class DroppingGenerator : IIncrementalGenerator
                                 IsStatic: true, Parameters: [_, { Type.SpecialType: SpecialType.System_Boolean }]
                             };
 
-                        return new MemberInfo(member_type, m.Name, m.IsStatic, drop_attr, disposing);
+                        var nullable = m switch
+                        {
+                            IPropertySymbol a => a.NullableAnnotation is not NullableAnnotation.NotAnnotated,
+                            IFieldSymbol a => a.NullableAnnotation is not NullableAnnotation.NotAnnotated,
+                            _ => false,
+                        };
+
+                        return new MemberInfo(member_type, m.Name, m.IsStatic, drop_attr, disposing, nullable);
                     })
                     .Where(static a => a.HasValue)
                     .Select(static a => a!.Value)
@@ -120,12 +127,12 @@ public class DroppingGenerator : IIncrementalGenerator
 
                 var info = new TargetInfo(dropping_attr, symbol.IsValueType, members, BaseDispose);
 
-                return (info, genBase, AlwaysEq.Create(diagnostics));
+                return (info, genBase, symbol.Name, AlwaysEq.Create(diagnostics));
             }
         );
         context.RegisterSourceOutput(sources, static (ctx, input) =>
         {
-            var (info, genBase, diagnostics) = input;
+            var (info, genBase, name, diagnostics) = input;
             if (diagnostics.Value.Count > 0)
             {
                 foreach (var diagnostic in diagnostics.Value)
@@ -134,7 +141,7 @@ public class DroppingGenerator : IIncrementalGenerator
                 }
             }
             var code = new DroppingTemplate(
-                    genBase, info
+                    genBase, name, info
                 )
                 .Gen();
             var sourceText = SourceText.From(code, Encoding.UTF8);

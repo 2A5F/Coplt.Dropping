@@ -21,9 +21,9 @@ public enum MemberType
     Method,
 }
 
-public record struct MemberInfo(MemberType type, string name, bool Static, DropAttr attr, bool disposing);
+public record struct MemberInfo(MemberType type, string name, bool Static, DropAttr attr, bool disposing, bool nullable);
 
-public class DroppingTemplate(GenBase GenBase, TargetInfo info) : ATemplate(GenBase)
+public class DroppingTemplate(GenBase GenBase, string name, TargetInfo info) : ATemplate(GenBase)
 {
     protected override void DoGen()
     {
@@ -56,9 +56,10 @@ public class DroppingTemplate(GenBase GenBase, TargetInfo info) : ATemplate(GenB
                 var cond = member.disposing || member.attr.Unmanaged ? "" : $"if (disposing) ";
                 var disposing = member.disposing ? "disposing" : "";
                 var this_disposing = member.disposing ? ", disposing" : "";
+                var nullable = member.nullable ? "?" : "";
                 if (member.type is MemberType.Filed or MemberType.Prop)
                 {
-                    sb.AppendLine($"        {cond}{member.name}.Dispose();");
+                    sb.AppendLine($"        {cond}{member.name}{nullable}.Dispose();");
                 }
                 else
                 {
@@ -91,9 +92,10 @@ public class DroppingTemplate(GenBase GenBase, TargetInfo info) : ATemplate(GenB
                 {
                     var disposing = member.disposing ? "true" : "";
                     var this_disposing = member.disposing ? ", true" : "";
+                    var nullable = member.nullable ? "?" : "";
                     if (member.type is MemberType.Filed or MemberType.Prop)
                     {
-                        sb.AppendLine($"        {member.name}.Dispose();");
+                        sb.AppendLine($"        {member.name}{nullable}.Dispose();");
                     }
                     else
                     {
@@ -118,7 +120,7 @@ public class DroppingTemplate(GenBase GenBase, TargetInfo info) : ATemplate(GenB
         if (finalizer)
         {
             sb.AppendLine();
-            sb.AppendLine($"    ~{TypeName}()");
+            sb.AppendLine($"    ~{name}()");
             sb.AppendLine($"    {{");
             if (should_disposing)
             {

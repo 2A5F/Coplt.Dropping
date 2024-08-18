@@ -162,7 +162,7 @@ public sealed partial class Foo12
 public sealed partial class Foo13
 {
     [Drop]
-    public Foo1 a;
+    public Foo1? a;
     public int b;
     
     [Drop]
@@ -172,6 +172,45 @@ public sealed partial class Foo13
     }
 }
 
+[Dropping(Unmanaged = true)]
+public sealed partial class Foo14
+{
+    [Drop]
+    public Foo8? a;
+    public int b;
+    
+    [Drop]
+    private void Drop(bool disposing)
+    {
+        Console.WriteLine(disposing);
+    }
+}
+
+[Dropping]
+public partial struct Foo15<T> where T : IDisposable
+{
+    [Drop]
+    public T a;
+    
+    [Drop]
+    private void Drop()
+    {
+        Console.WriteLine(1);
+    }
+}
+
+[Dropping]
+public partial struct Foo16<T> where T : IDisposable
+{
+    [Drop]
+    public T? a;
+    
+    [Drop]
+    private void Drop()
+    {
+        Console.WriteLine(1);
+    }
+}
 
 public class Tests
 {
