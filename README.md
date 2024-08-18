@@ -163,6 +163,7 @@ Auto gen dispose pattern
     ```
 
     </details>
+    <br/>
 
 - Sealed And Struct
 
@@ -274,4 +275,5 @@ Auto gen dispose pattern
     ```
 
     </details>
+    <br/>
 
