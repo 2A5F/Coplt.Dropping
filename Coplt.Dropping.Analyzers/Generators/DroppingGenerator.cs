@@ -67,7 +67,16 @@ public class DroppingGenerator : IIncrementalGenerator
                             _ => MemberType.Method,
                         };
 
-                        return new MemberInfo(member_type, m.Name, m.IsStatic, drop_attr);
+                        var disposing = m is IMethodSymbol
+                            {
+                                Parameters: [{ Type.SpecialType: SpecialType.System_Boolean }]
+                            }
+                            or IMethodSymbol
+                            {
+                                IsStatic: true, Parameters: [_, { Type.SpecialType: SpecialType.System_Boolean }]
+                            };
+
+                        return new MemberInfo(member_type, m.Name, m.IsStatic, drop_attr, disposing);
                     })
                     .OrderBy(a => a.attr.Order)
                     .ToImmutableArray();
@@ -103,7 +112,7 @@ public class DroppingGenerator : IIncrementalGenerator
                         bt = bt.BaseType;
                     }
                 }
-                
+
                 var info = new TargetInfo(dropping_attr, symbol.IsValueType, members, BaseDispose);
 
                 return (info, genBase, AlwaysEq.Create(diagnostics));

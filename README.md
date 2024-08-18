@@ -154,8 +154,8 @@ Auto gen dispose pattern
 
         protected override void Dispose(bool disposing)
         {
-            Drop();
-            if (disposing) Drop2();
+            if (disposing) Drop();
+            Drop2();
             base.Dispose(disposing);
         }
 

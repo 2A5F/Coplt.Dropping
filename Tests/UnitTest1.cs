@@ -117,6 +117,47 @@ public partial struct Foo8
     }
 }
 
+[Dropping]
+public partial class Foo9
+{
+    [Drop]
+    private void Drop(bool disposing)
+    {
+        Console.WriteLine(disposing);
+    }
+}
+
+[Dropping]
+public partial struct Foo10
+{
+    [Drop]
+    private void Drop(bool disposing)
+    {
+        Console.WriteLine(disposing);
+    }
+}
+
+[Dropping]
+public partial class Foo11 : SomeBase
+{
+    [Drop]
+    private void Drop(bool disposing)
+    {
+        Console.WriteLine(disposing);
+    }
+}
+
+[Dropping(Unmanaged = true)]
+public sealed partial class Foo12
+{
+    [Drop]
+    private void Drop(bool disposing)
+    {
+        Console.WriteLine(disposing);
+    }
+}
+
+
 public class Tests
 {
     [SetUp]
