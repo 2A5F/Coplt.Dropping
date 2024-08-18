@@ -28,7 +28,7 @@ public partial class Foo2
     }
 }
 
-[Dropping(Unmanaged = true)]
+[Dropping]
 public partial class Foo3 : Foo2
 {
     [Drop]
@@ -37,7 +37,7 @@ public partial class Foo3 : Foo2
         Console.WriteLine(1);
     }
 
-    [Drop(Unmanaged = false)]
+    [Drop(Unmanaged = true)]
     private void Drop2()
     {
         Console.WriteLine(2);
