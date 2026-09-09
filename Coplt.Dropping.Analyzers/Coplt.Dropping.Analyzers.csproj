@@ -19,7 +19,7 @@
 
     <PropertyGroup>
         <PackageId>Coplt.Dropping</PackageId>
-        <Version>0.8.0</Version>
+        <Version>0.8.1</Version>
         <PackageProjectUrl>https://github.com/coplt/Coplt.Dropping</PackageProjectUrl>
         <RepositoryUrl>https://github.com/coplt/Coplt.Dropping</RepositoryUrl>
         <PackageTags>roslyn analyzers;dispose;source generator</PackageTags>

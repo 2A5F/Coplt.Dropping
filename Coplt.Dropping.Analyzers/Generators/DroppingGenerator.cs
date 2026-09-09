@@ -85,8 +85,12 @@ public unsafe class DroppingGenerator : IIncrementalGenerator
 
                         var nullable = m switch
                         {
-                            IPropertySymbol a => !a.Type.IsValueType || a.NullableAnnotation is NullableAnnotation.Annotated,
-                            IFieldSymbol a => !a.Type.IsValueType || a.NullableAnnotation is NullableAnnotation.Annotated,
+                            IPropertySymbol a =>
+                                a.NullableAnnotation is NullableAnnotation.Annotated
+                                || a.Type.TypeKind is not TypeKind.Error && a.Type.IsReferenceType,
+                            IFieldSymbol a =>
+                                a.NullableAnnotation is NullableAnnotation.Annotated
+                                || a.Type.TypeKind is not TypeKind.Error && a.Type.IsReferenceType,
                             _ => false,
                         };
 
