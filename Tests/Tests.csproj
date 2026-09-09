@@ -27,10 +27,4 @@
         <ProjectReference Include="..\Coplt.Dropping.Analyzers\Coplt.Dropping.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Compile Include="..\Coplt.Dropping\**\*.cs" Visible="false"/>
-        <Compile Remove="..\Coplt.Dropping\obj\**"/>
-        <Compile Remove="..\Coplt.Dropping\bin\**"/>
-    </ItemGroup>
-
 </Project>

@@ -9,10 +9,24 @@ using Microsoft.CodeAnalysis.Text;
 namespace Coplt.Analyzers.Generators;
 
 [Generator]
-public class DroppingGenerator : IIncrementalGenerator
+public unsafe class DroppingGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        #region Gen Attrs
+
+        var attrs_stream = (UnmanagedMemoryStream)typeof(DroppingGenerator).Assembly.GetManifestResourceStream("Coplt.Dropping.Analyzers.Dropping.cs")!;
+        var attrs_code = Encoding.UTF8.GetString(attrs_stream.PositionPointer, (int)attrs_stream.Length)!;
+        context.RegisterPostInitializationOutput(ctx =>
+        {
+            ctx.AddEmbeddedAttributeDefinition();
+            ctx.AddSource("Coplt.Dropping", attrs_code);
+        });
+
+        #endregion
+
+        #region Gen Dropping
+
         var sources = context.SyntaxProvider.ForAttributeWithMetadataName(
             "Coplt.Dropping.DroppingAttribute",
             static (syntax, _) =>
@@ -71,8 +85,8 @@ public class DroppingGenerator : IIncrementalGenerator
 
                         var nullable = m switch
                         {
-                            IPropertySymbol a => !a.Type.IsValueType || a.NullableAnnotation is not NullableAnnotation.NotAnnotated,
-                            IFieldSymbol a => !a.Type.IsValueType || a.NullableAnnotation is not NullableAnnotation.NotAnnotated,
+                            IPropertySymbol a => !a.Type.IsValueType || a.NullableAnnotation is NullableAnnotation.Annotated,
+                            IFieldSymbol a => !a.Type.IsValueType || a.NullableAnnotation is NullableAnnotation.Annotated,
                             _ => false,
                         };
 
@@ -141,5 +155,7 @@ public class DroppingGenerator : IIncrementalGenerator
             var sourceFileName = $"{rawSourceFileName}.dropping.g.cs";
             ctx.AddSource(sourceFileName, sourceText);
         });
+
+        #endregion
     }
 }

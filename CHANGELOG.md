@@ -1,4 +1,9 @@
-﻿# 0.7.0
+﻿# 0.8.0
+- Breaking Changes
+  - Switch source package to `RegisterPostInitializationOutput`
+  - Required .NET 10 +
+
+# 0.7.0
 - Breaking Changes
   - Remove Unmanaged options
   - Add DropFrom to replace Unmanaged options

@@ -1,10 +1,11 @@
-﻿namespace Coplt.Dropping
+namespace Coplt.Dropping
 {
     /// <summary>
     /// Where to call drop
     /// </summary>
-    [Flags]
-    public enum DropFrom
+    [global::System.Flags]
+    [global::Microsoft.CodeAnalysis.Embedded]
+    internal enum DropFrom
     {
         /// <summary>
         /// Dispose will call this
@@ -23,8 +24,9 @@
     /// <summary>
     /// Mark this type as needing to be disposable
     /// </summary>
-    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, Inherited = false)]
-    internal sealed class DroppingAttribute : Attribute
+    [global::Microsoft.CodeAnalysis.Embedded]
+    [global::System.AttributeUsage(global::System.AttributeTargets.Struct | global::System.AttributeTargets.Class, Inherited = false)]
+    internal sealed class DroppingAttribute : global::System.Attribute
     {
         /// <summary>
         /// <c>false</c> to disable inherit
@@ -39,8 +41,9 @@
     /// <summary>
     /// Mark the dispose target, can be a method, field, or property
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Property, Inherited = false)]
-    internal sealed class DropAttribute : Attribute
+    [global::Microsoft.CodeAnalysis.Embedded]
+    [global::System.AttributeUsage(global::System.AttributeTargets.Method | global::System.AttributeTargets.Field | global::System.AttributeTargets.Property, Inherited = false)]
+    internal sealed class DropAttribute : global::System.Attribute
     {
         /// <summary>
         /// Calling order

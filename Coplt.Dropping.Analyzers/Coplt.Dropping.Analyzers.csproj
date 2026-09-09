@@ -8,6 +8,25 @@
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <IsRoslynComponent>true</IsRoslynComponent>
+        <IsPackable>true</IsPackable>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToPackage</TargetsForTfmSpecificContentInPackage>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Coplt.Dropping</PackageId>
+        <Version>0.8.0</Version>
+        <PackageProjectUrl>https://github.com/coplt/Coplt.Dropping</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/coplt/Coplt.Dropping</RepositoryUrl>
+        <PackageTags>roslyn analyzers;dispose;source generator</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <Description>Auto gen dispose pattern</Description>
+        <Authors>Coplt</Authors>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,14 +34,40 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all">
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" PrivateAssets="all">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" PrivateAssets="all" />
         <PackageReference Include="PolySharp" Version="1.16.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="../Coplt.Dropping/Dropping.cs"/>
+    </ItemGroup>
 
+    <ItemGroup>
+        <None Include="..\LICENSE.md">
+            <Pack>True</Pack>
+            <PackagePath>/</PackagePath>
+        </None>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>/</PackagePath>
+        </None>
+        <None Include="..\CHANGELOG.md">
+            <Pack>True</Pack>
+            <PackagePath>/</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <Target Name="_AddAnalyzersToPackage">
+        <ItemGroup>
+            <TfmSpecificPackageFile Include="$(TargetDir)$(TargetName).dll" PackagePath="analyzers/dotnet/cs" />
+            <TfmSpecificPackageFile Include="$(TargetDir)$(TargetName).pdb" PackagePath="analyzers/dotnet/cs" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+        </ItemGroup>
+    </Target>
+    
 </Project>
